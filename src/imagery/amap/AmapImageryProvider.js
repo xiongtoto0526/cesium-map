@@ -16,15 +16,19 @@ const CVA_URL =
 
 class AmapImageryProvider extends Cesium.UrlTemplateImageryProvider {
   constructor(options = {}) {
-    options['url'] =
-      options.style === 'img'
-        ? IMG_URL
-        : options.style === 'cva'
-        ? CVA_URL
-        : ELEC_URL
+    if (!options.url || !options.url.length) {
+      options['url'] =
+        options.style === 'img'
+          ? IMG_URL
+          : options.style === 'cva'
+          ? CVA_URL
+          : ELEC_URL
+    }
+
     if (!options.subdomains || !options.subdomains.length) {
       options['subdomains'] = ['01', '02', '03', '04']
     }
+
     if (options.crs === 'WGS84') {
       options['tilingScheme'] = new AmapMercatorTilingScheme()
     }
